@@ -184,7 +184,7 @@ var build_airlines_interface = function() {
     <th onclick="w3.sortHTML('#disTab', '.item', 'td:nth-child(6)')" style="cursor:pointer">Flight No.</th>
   </tr></thead>`);
       $('#disTab').append("<tbody id = 'tableBod'></tbody>");
-      var airline_name;
+
       $.ajax(root_url + "flights",
       {
          type: 'GET',
@@ -194,8 +194,9 @@ var build_airlines_interface = function() {
          success: (flight) => {
             console.log(flight.length);
             airline = document.getElementById('airline').value;
-            airport = document.getElementById('airport').value;
-
+			airport = document.getElementById('airport').value;
+			var radioValue = '';
+			radioValue = new Text($("input[name='arde']:checked"). val());
             for (let i = 0; i < flight.length; i++) {
                a = flight[i];
 			   a_id = a.airline_id;
@@ -266,14 +267,63 @@ var build_airlines_interface = function() {
 				} else if (ar_id == 20667) {
 					arrival_airport = 'RDU';
 				}
-			   console.log(airline_name);
                let dep_time = new Date(a.departs_at);
                let conv_dep_time = moment(dep_time * 1000).format('HH:mm')
                let arr_time = new Date(a.arrives_at);
-               let conv_arr_time = moment(arr_time * 1000).format('HH:mm')
-
-               $('#disTab').append("<tr class='item'><td>" + airline_name + "</td><td>" + depart_airport + "</td><td>" +
-               arrival_airport + "</td><td>" + conv_dep_time + "</td><td>" + conv_arr_time + "</td><td>" + a.number + "</tr>");
+			   let conv_arr_time = moment(arr_time * 1000).format('HH:mm')
+			   console.log(radioValue);
+			   if (airline == '' && airport == '' && radioValue == '""') {
+					$('#disTab').append("<tr class='item'><td>" + airline_name + "</td><td>" + depart_airport + "</td><td>" +
+					arrival_airport + "</td><td>" + conv_dep_time + "</td><td>" + conv_arr_time + "</td><td>" + a.number + "</tr>");
+			   } else if (airline != '' && airport == '' && radioValue == '""') {
+					if (airline_name = airline) {
+						$('#disTab').append("<tr class='item'><td>" + airline_name + "</td><td>" + depart_airport + "</td><td>" +
+						arrival_airport + "</td><td>" + conv_dep_time + "</td><td>" + conv_arr_time + "</td><td>" + a.number + "</tr>");
+					}
+			   } else if (airline == '' && airport != '' && radioValue == '""') {
+					if (depart_airport == airport || arrival_airport == airport) {
+						$('#disTab').append("<tr class='item'><td>" + airline_name + "</td><td>" + depart_airport + "</td><td>" +
+						arrival_airport + "</td><td>" + conv_dep_time + "</td><td>" + conv_arr_time + "</td><td>" + a.number + "</tr>");
+					}
+			   } else if (airline == '' && airport == '' && radioValue != '""') {
+					if (radioValue == '"arrival"' && arrival_airport == 'RDU') {
+						$('#disTab').append("<tr class='item'><td>" + airline_name + "</td><td>" + depart_airport + "</td><td>" +
+						arrival_airport + "</td><td>" + conv_dep_time + "</td><td>" + conv_arr_time + "</td><td>" + a.number + "</tr>");
+					} else if (radioValue == '"departure"' && depart_airport == 'RDU') {
+						$('#disTab').append("<tr class='item'><td>" + airline_name + "</td><td>" + depart_airport + "</td><td>" +
+						arrival_airport + "</td><td>" + conv_dep_time + "</td><td>" + conv_arr_time + "</td><td>" + a.number + "</tr>");
+					}
+			   } else if (airline == '' && airport != '' && radioValue != '""') {
+					if (arrival_airport == airport && radioValue == '"departure"' && depart_airport == 'RDU') {
+						$('#disTab').append("<tr class='item'><td>" + airline_name + "</td><td>" + depart_airport + "</td><td>" +
+						arrival_airport + "</td><td>" + conv_dep_time + "</td><td>" + conv_arr_time + "</td><td>" + a.number + "</tr>");
+					} else if (depart_airport == airport && radioValue == '"arrival"' && arrival_airport == 'RDU') {
+						$('#disTab').append("<tr class='item'><td>" + airline_name + "</td><td>" + depart_airport + "</td><td>" +
+						arrival_airport + "</td><td>" + conv_dep_time + "</td><td>" + conv_arr_time + "</td><td>" + a.number + "</tr>");
+					}
+			   } else if (airline != '' && airport == '' && radioValue != '""') {
+					if (airline_name == airline && radioValue == '"arrival"' && arrival_airport == 'RDU') {
+						$('#disTab').append("<tr class='item'><td>" + airline_name + "</td><td>" + depart_airport + "</td><td>" +
+						arrival_airport + "</td><td>" + conv_dep_time + "</td><td>" + conv_arr_time + "</td><td>" + a.number + "</tr>");
+					} else if (airline_name == airline && radioValue == '"departure"' && depart_airport == 'RDU') {
+						$('#disTab').append("<tr class='item'><td>" + airline_name + "</td><td>" + depart_airport + "</td><td>" +
+						arrival_airport + "</td><td>" + conv_dep_time + "</td><td>" + conv_arr_time + "</td><td>" + a.number + "</tr>");
+					}
+			   } else if (airline != '' && airport != '' && radioValue == '""') {
+					if (airline_name == name && (arrival_airport == airport || depart_airport == airport)) {
+						$('#disTab').append("<tr class='item'><td>" + airline_name + "</td><td>" + depart_airport + "</td><td>" +
+						arrival_airport + "</td><td>" + conv_dep_time + "</td><td>" + conv_arr_time + "</td><td>" + a.number + "</tr>");
+					}
+			   } else if (airline != '' && airport != '' && radioValue != '""') {
+					if (airline_name == name && arrival_airport == 'RDU' && depart_airport == airport && radioValue == '"arrival"') {
+						$('#disTab').append("<tr class='item'><td>" + airline_name + "</td><td>" + depart_airport + "</td><td>" +
+						arrival_airport + "</td><td>" + conv_dep_time + "</td><td>" + conv_arr_time + "</td><td>" + a.number + "</tr>");
+					} else if (airline_name == name && depart_airport == 'RDU' && arrival_airport == airport && radioValue == '"departure"') {
+						$('#disTab').append("<tr class='item'><td>" + airline_name + "</td><td>" + depart_airport + "</td><td>" +
+						arrival_airport + "</td><td>" + conv_dep_time + "</td><td>" + conv_arr_time + "</td><td>" + a.number + "</tr>");
+					}
+			   }
+ 				
             }
          }
       });
