@@ -117,7 +117,7 @@ $(document).ready(() => {
             }
          },
          success: () => {
-            build_airlines_interface();
+            tab_interface();
          },
          error: (jqxhr, status, error) => {
             alert(error);
@@ -126,50 +126,81 @@ $(document).ready(() => {
    });
 });
 
-var build_airlines_interface = function() {
-   $('head').append("<script src='https://maps.googleapis.com/maps/api/js?key=AIzaSyBs0A4Cgt04LwXWEdMNbEtRDOdWwJx9Yrg&callback=initMap' async defer></script>");
-   let body = $('body');
+var tab_interface = function () {
+  let body = $('body');
+  let section = $('section');
 
-   body.empty();
-   body.append("<div class = 'topdiv'><header class = 'top' role = 'banner'><h1>Track Your Flight</h1></header></div>");
-   body.append("<div id = 'info'><div>");
+  body.empty();
+  body.append("<div class = 'tabs'><button class = 'tab_link' onclick = 'build_airlines_interface(this)' id = 'defaultOpen'>Status</button><button class = 'tab_link' onclick = 'build_search_interface(this)'>Search</button></div>");
+  body.append("<section></section>");
+  document.getElementById("defaultOpen").click();
+
+}
+
+var build_search_interface = function (elmnt) {
+  $('head').append("<script src='https://maps.googleapis.com/maps/api/js?key=AIzaSyBs0A4Cgt04LwXWEdMNbEtRDOdWwJx9Yrg&callback=initMap' async defer></script>");
+  let section = $('section');
+  tablinks = document.getElementsByClassName("tab_link");
+  for (i = 0; i < tablinks.length; i++) {
+      tablinks[i].style.backgroundColor = "";
+  }
+  elmnt.style.backgroundColor = '#005daa';
+  section.empty();
+  section.append("<div class = 'topdiv' id = 'dark'><header class = 'top' role = 'banner'><h1>Flight Search</h1></header></div>");
+  section.append("<div id = 'info'><div>");
+  let info = $('#info');
+  info.append("<h2> Select an Airline</h2>");
+
+  let airline_list = $("<form id = 'airline_form'><select id = 'airline'></select></form>");
+  let airport_list = $("<form id = 'airport_form'><select id = 'airport' onchange = 'updateLocation()'></select></form>");
+  info.append(airline_list);
+
+  info.append("<h2> Select an Airport </h2>");
+  info.append(airport_list);
+
+  section.append("<div id = 'map'></div>");
+  $('#airline').append("<option value = ''> Select an Airline </option>");
+  $('#airport').append("<option value = ''> Select an Airport </option>");
+
+  $.ajax(root_url + "airlines",
+  {
+     type: 'GET',
+     xhrFields: {withCredentials: true},
+     success: (airlines) => {
+        for (let i = 0; i < airlines.length; i++) {
+           $('#airline').append("<option value = '" + airlines[i].name + "'>" + airlines[i].name + "</option>");
+        }
+
+     }
+  });
+
+  $.ajax(root_url + "airports",
+  {
+     type: 'GET',
+     xhrFields: {withCredentials: true},
+     success: (airport) => {
+        for (let i = 0; i < airport.length; i++) {
+           $('#airport').append("<option value = '" + airport[i].code + "'>" + airport[i].name + "</option>");
+        }
+     }
+  });
+
+}
+var build_airlines_interface = function(elmnt) {
+   let section = $('section');
+
+   section.empty();
+   section.append("<div class = 'topdiv' id = 'blue'><header class = 'top' role = 'banner'><h1>Flight Status</h1></header></div>");
+   tablinks = document.getElementsByClassName("tab_link");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].style.backgroundColor = "";
+    }
+   elmnt.style.backgroundColor = '#4285f4';
+   section.append("<div id = 'info'><div>");
    let info = $('#info');
-   info.append("<h2> Select an Airline</h2>");
 
-   let airline_list = $("<form id = 'airline_form'><select id = 'airline'></select></form>");
-   let airport_list = $("<form id = 'airport_form'><select id = 'airport' onchange = 'updateLocation()'></select></form>");
-   info.append(airline_list);
-
-   info.append("<h2> Select an Airport </h2>");
-   info.append(airport_list);
    info.append("<h2> Arrivals or Departures? </h2>");
    info.append("<form><input type = 'radio' name = 'arde' value = 'arrival'> Arrivals <br><input type = 'radio' name = 'arde' value = 'departure'> Departures <br></form>");
-   body.append("<div id = 'map'></div>");
-   $('#airline').append("<option value = ''> Select an Airline </option>");
-   $('#airport').append("<option value = ''> Select an Airport </option>");
-
-   $.ajax(root_url + "airlines",
-   {
-      type: 'GET',
-      xhrFields: {withCredentials: true},
-      success: (airlines) => {
-         for (let i = 0; i < airlines.length; i++) {
-            $('#airline').append("<option value = '" + airlines[i].name + "'>" + airlines[i].name + "</option>");
-         }
-
-      }
-   });
-
-   $.ajax(root_url + "airports",
-   {
-      type: 'GET',
-      xhrFields: {withCredentials: true},
-      success: (airport) => {
-         for (let i = 0; i < airport.length; i++) {
-            $('#airport').append("<option value = '" + airport[i].code + "'>" + airport[i].name + "</option>");
-         }
-      }
-   });
 
    info.append("<div><button id = 'submit' class = 'button'> Submit </button></div>");
    info.append("<div class = 'table'></div>");
@@ -323,7 +354,7 @@ var build_airlines_interface = function() {
 						arrival_airport + "</td><td>" + conv_dep_time + "</td><td>" + conv_arr_time + "</td><td>" + a.number + "</tr>");
 					}
 			   }
- 				
+
             }
          }
       });
