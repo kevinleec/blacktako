@@ -78,6 +78,7 @@ function updateLocation() {
 };
 
 function getAirlineName(airline_id) {
+	console.log(airline_id);
    $.ajax(root_url + "airlines",
    {
       type: 'GET',
@@ -86,12 +87,12 @@ function getAirlineName(airline_id) {
          airline_name = 'no name';
          for (let i = 0; i < airlines.length; i++) {
             if (airlines[i].id == a_id) {
-               airline_name = String(airlines[i].name);
-            } else {
-               airline_name = 'no name';
-            }
-         }
-      }
+               airline_name = airlines[i].name;
+			}
+		 }
+		console.log(airline_name);
+	  }
+
    });
 };
 
@@ -197,15 +198,82 @@ var build_airlines_interface = function() {
 
             for (let i = 0; i < flight.length; i++) {
                a = flight[i];
-               a_id = a.airline_id;
-               airline_name = getAirlineName(a_id);
+			   a_id = a.airline_id;
+			   let airline_name;
+			   if (a_id == 2547) {
+					airline_name = 'Alaska Airlines';
+			   } else if (a_id == 2546) {
+					airline_name = 'JetBlue Airways';
+			   } else if (a_id == 2545) {
+					airline_name = 'Frontier Airlines';
+		   		} else if (a_id == 2544) {
+					airline_name = 'Southwest Airlines';
+			   	} else if (a_id == 2543) {
+					airline_name = 'United Airlines';
+			   	} else if (a_id == 2542) {
+					airline_name = 'Delta Airlines';
+			   	} else if (a_id == 2541) {
+					airline_name = 'American Airlines';
+				}
+				d_id = a.departure_id;
+				ar_id = a.arrival_id;
+				let depart_airport;
+				let arrival_airport;
+				if (d_id == 73306) {
+					depart_airport = 'SEA';
+				} else if (d_id == 20676) {
+					depart_airport = 'LAX';
+				} else if (d_id == 20675) {
+					depart_airport = 'SFO';
+				} else if (d_id == 20674) {
+					depart_airport = 'DEN';
+				} else if (d_id == 20673) {
+					depart_airport = 'IAH';
+				} else if (d_id == 20672) {
+					depart_airport = 'ORD';
+				} else if (d_id == 20671) {
+					depart_airport = 'BOS';
+				} else if (d_id == 20670) {
+					depart_airport = 'JFK';
+				} else if (d_id == 20669) {
+					depart_airport = 'ATL';
+				} else if (d_id == 20668) {
+					depart_airport = 'IAD';
+				} else if (d_id == 20667) {
+					depart_airport = 'RDU';
+				}
+
+				if (ar_id == 73306) {
+					arrival_airport = 'SEA';
+				} else if (ar_id == 20676) {
+					arrival_airport = 'LAX';
+				} else if (ar_id == 20675) {
+					arrival_airport = 'SFO';
+				} else if (ar_id == 20674) {
+					arrival_airport = 'DEN';
+				} else if (ar_id == 20673) {
+					arrival_airport = 'IAH';
+				} else if (ar_id == 20672) {
+					arrival_airport = 'ORD';
+				} else if (ar_id == 20671) {
+					arrival_airport = 'BOS';
+				} else if (ar_id == 20670) {
+					arrival_airport = 'JFK';
+				} else if (ar_id == 20669) {
+					arrival_airport = 'ATL';
+				} else if (ar_id == 20668) {
+					arrival_airport = 'IAD';
+				} else if (ar_id == 20667) {
+					arrival_airport = 'RDU';
+				}
+			   console.log(airline_name);
                let dep_time = new Date(a.departs_at);
                let conv_dep_time = moment(dep_time * 1000).format('HH:mm')
                let arr_time = new Date(a.arrives_at);
                let conv_arr_time = moment(arr_time * 1000).format('HH:mm')
 
-               $('#disTab').append("<tr class='item'><td>" + a.airline_id + "</td><td>" + a.departure_id + "</td><td>" +
-               a.arrival_id + "</td><td>" + conv_dep_time + "</td><td>" + conv_arr_time + "</td><td>" + a.number + "</tr>");
+               $('#disTab').append("<tr class='item'><td>" + airline_name + "</td><td>" + depart_airport + "</td><td>" +
+               arrival_airport + "</td><td>" + conv_dep_time + "</td><td>" + conv_arr_time + "</td><td>" + a.number + "</tr>");
             }
          }
       });

@@ -1,57 +1,57 @@
 body {
-  font-family: 'Noto Sans', sans-serif;
-}
-
-table, th, td {
-  border: 1px solid #ddd;
-  border-collapse: collapse;
-  borer-spacing: 0;
-  white-space: nowrap;
-  overflow: hidden;
-}
-
-th, td {
-  padding: 10px;
-  text-align: left;
-}
-
-table tr:nth-child(even) {
-  background-color: #eee;
-}
-
-table tr:nth-child(odd) {
-  background-color: #fff;
-}
-
-table th {
-    background-color: #404040;
+    font-family: 'Noto Sans', sans-serif;
+  }
+  
+  table, th, td {
+    border: 1px solid #ddd;
+    border-collapse: collapse;
+    borer-spacing: 0;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+  
+  th, td {
+    padding: 10px;
+    text-align: left;
+  }
+  
+  table tr:nth-child(even) {
+    background-color: #eee;
+  }
+  
+  table tr:nth-child(odd) {
+    background-color: #fff;
+  }
+  
+  table th {
+      background-color: #404040;
+      color: white;
+  }
+  
+  #map {
+    height: 400px;
+    float: right;
+    width: 40%;
+  }
+  
+  #info {
+    float: left;
+    width: 50%;
+  }
+  
+  .topdiv {
+    height: 150px;
+  }
+  
+  .top {
+    background-color: #4285f4;
     color: white;
-}
-
-#map {
-  height: 400px;
-  float: right;
-  width: 40%;
-}
-
-#info {
-  float: left;
-  width: 50%;
-}
-
-.topdiv {
-  height: 150px;
-}
-
-.top {
-  background-color: #4285f4;
-  color: white;
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  right: 0px;
-  width: 100%;
-  height: 75px;
-  z-index: -1;
-
-}
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    width: 100%;
+    height: 75px;
+    z-index: -1;
+  
+  }
