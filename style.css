@@ -1,96 +1,96 @@
 body {
-  font-family: 'Noto Sans', sans-serif;
-}
-
-/* Style the tab */
-.tabs {
+    font-family: 'Noto Sans', sans-serif;
+  }
+  
+  /* Style the tab */
+  .tabs {
+      overflow: hidden;
+      background-color: #5a5a5a;
+      z-index: 1;
+      position: relative;
+  }
+  
+  /* Style the buttons inside the tab */
+  .tabs button {
+      background-color: inherit;
+      float: left;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      padding: 14px 16px;
+      transition: 0.3s;
+      font-size: 17px;
+      font-weight: bold;
+      color: white;
+  }
+  
+  /* Change background color of buttons on hover */
+  .tabs button:hover {
+      background-color: #777;
+  }
+  
+  table, th, td {
+    border: 1px solid #ddd;
+    border-collapse: collapse;
+    border-spacing: 0;
+    white-space: nowrap;
     overflow: hidden;
-    background-color: #5a5a5a;
-    z-index: 1;
-    position: relative;
-}
-
-/* Style the buttons inside the tab */
-.tabs button {
-    background-color: inherit;
-    float: left;
-    border: none;
-    outline: none;
-    cursor: pointer;
-    padding: 14px 16px;
-    transition: 0.3s;
-    font-size: 17px;
-    font-weight: bold;
+  }
+  
+  th, td {
+    padding: 10px;
+    text-align: left;
+  }
+  
+  table tr:nth-child(even) {
+    background-color: #eee;
+  }
+  
+  table tr:nth-child(odd) {
+    background-color: #fff;
+  }
+  
+  table th {
+    background-color: #4285f4;
     color: white;
-}
-
-/* Change background color of buttons on hover */
-.tabs button:hover {
-    background-color: #777;
-}
-
-table, th, td {
-  border: 1px solid #ddd;
-  border-collapse: collapse;
-  border-spacing: 0;
-  white-space: nowrap;
-  overflow: hidden;
-}
-
-th, td {
-  padding: 10px;
-  text-align: left;
-}
-
-table tr:nth-child(even) {
-  background-color: #eee;
-}
-
-table tr:nth-child(odd) {
-  background-color: #fff;
-}
-
-table th {
-  background-color: #4285f4;
-  color: white;
-}
-
-#map {
-  height: 400px;
-  float: right;
-  width: 40%;
-}
-
-#info {
-  float: left;
-  width: 50%;
-}
-
-.topdiv {
-  height: 80px;
-}
-
-.top {
-  color: white;
-  position: relative;
-  top: 0px;
-  left: 0px;
-  right: 0px;
-  width: 100%;
-  height: 60px;
-  z-index: 2;
-}
-
-.top h1 {
-  position: absolute;
-  bottom: -25px;
-  left: 18px;
-}
-
-#dark {
-  background-color: #005daa;
-}
-
-#blue {
-  background-color: #4285f4;
-}
+  }
+  
+  #map {
+    height: 400px;
+    float: right;
+    width: 40%;
+  }
+  
+  #info {
+    float: left;
+    width: 50%;
+  }
+  
+  .topdiv {
+    height: 80px;
+  }
+  
+  .top {
+    color: white;
+    position: relative;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    width: 100%;
+    height: 60px;
+    z-index: 2;
+  }
+  
+  .top h1 {
+    position: absolute;
+    bottom: -25px;
+    left: 18px;
+  }
+  
+  #dark {
+    background-color: #005daa;
+  }
+  
+  #blue {
+    background-color: #4285f4;
+  }

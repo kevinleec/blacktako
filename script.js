@@ -138,113 +138,94 @@ var tab_interface = function () {
 }
 
 var build_search_interface = function (elmnt) {
-  $('head').append("<script src='https://maps.googleapis.com/maps/api/js?key=AIzaSyBs0A4Cgt04LwXWEdMNbEtRDOdWwJx9Yrg&callback=initMap' async defer></script>");
-  let section = $('section');
-  tablinks = document.getElementsByClassName("tab_link");
-  for (i = 0; i < tablinks.length; i++) {
-      tablinks[i].style.backgroundColor = "";
-  }
-  elmnt.style.backgroundColor = '#005daa';
-  section.empty();
-  section.append("<div class = 'topdiv' id = 'dark'><header class = 'top' role = 'banner'><h1>Flight Search</h1></header></div>");
-  section.append("<div id = 'info'><div>");
-  let info = $('#info');
-  info.append("<h2> Select an Airline</h2>");
+	$('head').append("<script src='https://maps.googleapis.com/maps/api/js?key=AIzaSyBs0A4Cgt04LwXWEdMNbEtRDOdWwJx9Yrg&callback=initMap' async defer></script>");
+	let section = $('section');
+	tablinks = document.getElementsByClassName("tab_link");
+	for (i = 0; i < tablinks.length; i++) {
+		tablinks[i].style.backgroundColor = "";
+	}
+	elmnt.style.backgroundColor = '#005daa';
+	section.empty();
+	section.append("<div class = 'topdiv' id = 'dark'><header class = 'top' role = 'banner'><h1>Flight Search</h1></header></div>");
+	section.append("<div id = 'info'><div>");
+	let info = $('#info');
+	info.append("<h2> Select an Airline</h2>");
 
-  let airline_list = $("<form id = 'airline_form'><select id = 'airline'></select></form>");
-  let airport_list = $("<form id = 'airport_form'><select id = 'airport' onchange = 'updateLocation()'></select></form>");
-  info.append(airline_list);
+	let airline_list = $("<form id = 'airline_form'><select id = 'airline'></select></form>");
+	let airport_list = $("<form id = 'airport_form'><select id = 'airport' onchange = 'updateLocation()'></select></form>");
+	info.append(airline_list);
 
-  info.append("<h2> Select an Airport </h2>");
-  info.append(airport_list);
+	info.append("<h2> Select an Airport </h2>");
+	info.append(airport_list);
 
-  section.append("<div id = 'map'></div>");
-  $('#airline').append("<option value = ''> Select an Airline </option>");
-  $('#airport').append("<option value = ''> Select an Airport </option>");
+	section.append("<div id = 'map'></div>");
+	$('#airline').append("<option value = ''> Select an Airline </option>");
+	$('#airport').append("<option value = ''> Select an Airport </option>");
+	info.append("<div><button id = 'submit' class = 'button'> Submit </button></div>");
+	info.append("<div class = 'table'></div>");
 
-  $.ajax(root_url + "airlines",
-  {
-     type: 'GET',
-     xhrFields: {withCredentials: true},
-     success: (airlines) => {
-        for (let i = 0; i < airlines.length; i++) {
-           $('#airline').append("<option value = '" + airlines[i].name + "'>" + airlines[i].name + "</option>");
-        }
+	$.ajax(root_url + "airlines",
+	{
+		type: 'GET',
+		xhrFields: {withCredentials: true},
+		success: (airlines) => {
+			for (let i = 0; i < airlines.length; i++) {
+			$('#airline').append("<option value = '" + airlines[i].name + "'>" + airlines[i].name + "</option>");
+			}
 
-     }
-  });
+		}
+	});
 
-  $.ajax(root_url + "airports",
-  {
-     type: 'GET',
-     xhrFields: {withCredentials: true},
-     success: (airport) => {
-        for (let i = 0; i < airport.length; i++) {
-           $('#airport').append("<option value = '" + airport[i].code + "'>" + airport[i].name + "</option>");
-        }
-     }
-  });
+	$.ajax(root_url + "airports",
+	{
+		type: 'GET',
+		xhrFields: {withCredentials: true},
+		success: (airport) => {
+			for (let i = 0; i < airport.length; i++) {
+			$('#airport').append("<option value = '" + airport[i].code + "'>" + airport[i].name + "</option>");
+			}
+		}
+	});
 
-}
-var build_airlines_interface = function(elmnt) {
-   let section = $('section');
+	$('#submit').on('click', function() {
+		$('.table').empty();
+		$('.table').append(`<table id = 'disTab'><thead><tr>
+	<th onclick="w3.sortHTML('#disTab', '.item', 'td:nth-child(1)')" style="cursor:pointer">Airline</th>
+	<th onclick="w3.sortHTML('#disTab', '.item', 'td:nth-child(2)')" style="cursor:pointer">From</th>
+	<th onclick="w3.sortHTML('#disTab', '.item', 'td:nth-child(3)')" style="cursor:pointer">To</th>
+	<th onclick="w3.sortHTML('#disTab', '.item', 'td:nth-child(4)')" style="cursor:pointer">Depart Time</th>
+	<th onclick="w3.sortHTML('#disTab', '.item', 'td:nth-child(5)')" style="cursor:pointer">Arrival Time</th>
+	<th onclick="w3.sortHTML('#disTab', '.item', 'td:nth-child(6)')" style="cursor:pointer">Flight No.</th>
+	</tr></thead>`);
+		$('#disTab').append("<tbody id = 'tableBod'></tbody>");
 
-   section.empty();
-   section.append("<div class = 'topdiv' id = 'blue'><header class = 'top' role = 'banner'><h1>Flight Status</h1></header></div>");
-   tablinks = document.getElementsByClassName("tab_link");
-    for (i = 0; i < tablinks.length; i++) {
-        tablinks[i].style.backgroundColor = "";
-    }
-   elmnt.style.backgroundColor = '#4285f4';
-   section.append("<div id = 'info'><div>");
-   let info = $('#info');
-
-   info.append("<h2> Arrivals or Departures? </h2>");
-   info.append("<form><input type = 'radio' name = 'arde' value = 'arrival'> Arrivals <br><input type = 'radio' name = 'arde' value = 'departure'> Departures <br></form>");
-
-   info.append("<div><button id = 'submit' class = 'button'> Submit </button></div>");
-   info.append("<div class = 'table'></div>");
-   $('#submit').on('click', function() {
-      $('.table').empty();
-      $('.table').append(`<table id = 'disTab'><thead><tr>
-    <th onclick="w3.sortHTML('#disTab', '.item', 'td:nth-child(1)')" style="cursor:pointer">Airline</th>
-    <th onclick="w3.sortHTML('#disTab', '.item', 'td:nth-child(2)')" style="cursor:pointer">From</th>
-    <th onclick="w3.sortHTML('#disTab', '.item', 'td:nth-child(3)')" style="cursor:pointer">To</th>
-    <th onclick="w3.sortHTML('#disTab', '.item', 'td:nth-child(4)')" style="cursor:pointer">Depart Time</th>
-    <th onclick="w3.sortHTML('#disTab', '.item', 'td:nth-child(5)')" style="cursor:pointer">Arrival Time</th>
-    <th onclick="w3.sortHTML('#disTab', '.item', 'td:nth-child(6)')" style="cursor:pointer">Flight No.</th>
-  </tr></thead>`);
-      $('#disTab').append("<tbody id = 'tableBod'></tbody>");
-
-      $.ajax(root_url + "flights",
-      {
-         type: 'GET',
-         xhrFields: {
-            withCredentials: true
-         },
-         success: (flight) => {
-            console.log(flight.length);
-            airline = document.getElementById('airline').value;
+		$.ajax(root_url + "flights",
+		{
+		type: 'GET',
+		xhrFields: {
+			withCredentials: true
+		},
+		success: (flight) => {
+			console.log(flight.length);
+			airline = document.getElementById('airline').value;
 			airport = document.getElementById('airport').value;
-			var radioValue = '';
-			radioValue = new Text($("input[name='arde']:checked"). val());
-            for (let i = 0; i < flight.length; i++) {
-               a = flight[i];
-			   a_id = a.airline_id;
-			   let airline_name;
-			   if (a_id == 2547) {
+			for (let i = 0; i < flight.length; i++) {
+				a = flight[i];
+				a_id = a.airline_id;
+				let airline_name;
+				if (a_id == 2547) {
 					airline_name = 'Alaska Airlines';
-			   } else if (a_id == 2546) {
+				} else if (a_id == 2546) {
 					airline_name = 'JetBlue Airways';
-			   } else if (a_id == 2545) {
+				} else if (a_id == 2545) {
 					airline_name = 'Frontier Airlines';
-		   		} else if (a_id == 2544) {
+					} else if (a_id == 2544) {
 					airline_name = 'Southwest Airlines';
-			   	} else if (a_id == 2543) {
+					} else if (a_id == 2543) {
 					airline_name = 'United Airlines';
-			   	} else if (a_id == 2542) {
+					} else if (a_id == 2542) {
 					airline_name = 'Delta Airlines';
-			   	} else if (a_id == 2541) {
+					} else if (a_id == 2541) {
 					airline_name = 'American Airlines';
 				}
 				d_id = a.departure_id;
@@ -298,67 +279,170 @@ var build_airlines_interface = function(elmnt) {
 				} else if (ar_id == 20667) {
 					arrival_airport = 'RDU';
 				}
-               let dep_time = new Date(a.departs_at);
-               let conv_dep_time = moment(dep_time * 1000).format('HH:mm')
-               let arr_time = new Date(a.arrives_at);
-			   let conv_arr_time = moment(arr_time * 1000).format('HH:mm')
-			   console.log(radioValue);
-			   if (airline == '' && airport == '' && radioValue == '""') {
-					$('#disTab').append("<tr class='item'><td>" + airline_name + "</td><td>" + depart_airport + "</td><td>" +
-					arrival_airport + "</td><td>" + conv_dep_time + "</td><td>" + conv_arr_time + "</td><td>" + a.number + "</tr>");
-			   } else if (airline != '' && airport == '' && radioValue == '""') {
-					if (airline_name = airline) {
-						$('#disTab').append("<tr class='item'><td>" + airline_name + "</td><td>" + depart_airport + "</td><td>" +
-						arrival_airport + "</td><td>" + conv_dep_time + "</td><td>" + conv_arr_time + "</td><td>" + a.number + "</tr>");
-					}
-			   } else if (airline == '' && airport != '' && radioValue == '""') {
-					if (depart_airport == airport || arrival_airport == airport) {
-						$('#disTab').append("<tr class='item'><td>" + airline_name + "</td><td>" + depart_airport + "</td><td>" +
-						arrival_airport + "</td><td>" + conv_dep_time + "</td><td>" + conv_arr_time + "</td><td>" + a.number + "</tr>");
-					}
-			   } else if (airline == '' && airport == '' && radioValue != '""') {
-					if (radioValue == '"arrival"' && arrival_airport == 'RDU') {
-						$('#disTab').append("<tr class='item'><td>" + airline_name + "</td><td>" + depart_airport + "</td><td>" +
-						arrival_airport + "</td><td>" + conv_dep_time + "</td><td>" + conv_arr_time + "</td><td>" + a.number + "</tr>");
-					} else if (radioValue == '"departure"' && depart_airport == 'RDU') {
-						$('#disTab').append("<tr class='item'><td>" + airline_name + "</td><td>" + depart_airport + "</td><td>" +
-						arrival_airport + "</td><td>" + conv_dep_time + "</td><td>" + conv_arr_time + "</td><td>" + a.number + "</tr>");
-					}
-			   } else if (airline == '' && airport != '' && radioValue != '""') {
-					if (arrival_airport == airport && radioValue == '"departure"' && depart_airport == 'RDU') {
-						$('#disTab').append("<tr class='item'><td>" + airline_name + "</td><td>" + depart_airport + "</td><td>" +
-						arrival_airport + "</td><td>" + conv_dep_time + "</td><td>" + conv_arr_time + "</td><td>" + a.number + "</tr>");
-					} else if (depart_airport == airport && radioValue == '"arrival"' && arrival_airport == 'RDU') {
-						$('#disTab').append("<tr class='item'><td>" + airline_name + "</td><td>" + depart_airport + "</td><td>" +
-						arrival_airport + "</td><td>" + conv_dep_time + "</td><td>" + conv_arr_time + "</td><td>" + a.number + "</tr>");
-					}
-			   } else if (airline != '' && airport == '' && radioValue != '""') {
-					if (airline_name == airline && radioValue == '"arrival"' && arrival_airport == 'RDU') {
-						$('#disTab').append("<tr class='item'><td>" + airline_name + "</td><td>" + depart_airport + "</td><td>" +
-						arrival_airport + "</td><td>" + conv_dep_time + "</td><td>" + conv_arr_time + "</td><td>" + a.number + "</tr>");
-					} else if (airline_name == airline && radioValue == '"departure"' && depart_airport == 'RDU') {
-						$('#disTab').append("<tr class='item'><td>" + airline_name + "</td><td>" + depart_airport + "</td><td>" +
-						arrival_airport + "</td><td>" + conv_dep_time + "</td><td>" + conv_arr_time + "</td><td>" + a.number + "</tr>");
-					}
-			   } else if (airline != '' && airport != '' && radioValue == '""') {
-					if (airline_name == name && (arrival_airport == airport || depart_airport == airport)) {
-						$('#disTab').append("<tr class='item'><td>" + airline_name + "</td><td>" + depart_airport + "</td><td>" +
-						arrival_airport + "</td><td>" + conv_dep_time + "</td><td>" + conv_arr_time + "</td><td>" + a.number + "</tr>");
-					}
-			   } else if (airline != '' && airport != '' && radioValue != '""') {
-					if (airline_name == name && arrival_airport == 'RDU' && depart_airport == airport && radioValue == '"arrival"') {
-						$('#disTab').append("<tr class='item'><td>" + airline_name + "</td><td>" + depart_airport + "</td><td>" +
-						arrival_airport + "</td><td>" + conv_dep_time + "</td><td>" + conv_arr_time + "</td><td>" + a.number + "</tr>");
-					} else if (airline_name == name && depart_airport == 'RDU' && arrival_airport == airport && radioValue == '"departure"') {
-						$('#disTab').append("<tr class='item'><td>" + airline_name + "</td><td>" + depart_airport + "</td><td>" +
-						arrival_airport + "</td><td>" + conv_dep_time + "</td><td>" + conv_arr_time + "</td><td>" + a.number + "</tr>");
-					}
-			   }
+				let dep_time = new Date(a.departs_at);
+				let conv_dep_time = moment(dep_time * 1000).format('HH:mm')
+				let arr_time = new Date(a.arrives_at);
+				let conv_arr_time = moment(arr_time * 1000).format('HH:mm')
 
-            }
-         }
-      });
-   });
+					if (airline == '' && airport == '') {
+						$('#disTab').append("<tr class='item'><td>" + airline_name + "</td><td>" + depart_airport + "</td><td>" +
+						arrival_airport + "</td><td>" + conv_dep_time + "</td><td>" + conv_arr_time + "</td><td>" + a.number + "</tr>");
+					} else if (airline != '' && airport == '') {
+						if (airline_name == airline) {
+							$('#disTab').append("<tr class='item'><td>" + airline_name + "</td><td>" + depart_airport + "</td><td>" +
+							arrival_airport + "</td><td>" + conv_dep_time + "</td><td>" + conv_arr_time + "</td><td>" + a.number + "</tr>");
+						}
+					} else if (airline == '' && airport != '') {
+						if (depart_airport == airport || arrival_airport == airport) {
+						$('#disTab').append("<tr class='item'><td>" + airline_name + "</td><td>" + depart_airport + "</td><td>" +
+						arrival_airport + "</td><td>" + conv_dep_time + "</td><td>" + conv_arr_time + "</td><td>" + a.number + "</tr>");
+						}
+					} else if (airline != '' && airport != '') {
+						if (airline_name == airline && (arrival_airport == airport || depart_airport == airport)) {
+							$('#disTab').append("<tr class='item'><td>" + airline_name + "</td><td>" + depart_airport + "</td><td>" +
+							arrival_airport + "</td><td>" + conv_dep_time + "</td><td>" + conv_arr_time + "</td><td>" + a.number + "</tr>");
+						}
+					}
+
+			}
+			}
+		});
+	});
+}
+var build_airlines_interface = function(elmnt) {
+	let section = $('section');
+
+	section.empty();
+	section.append("<div class = 'topdiv' id = 'blue'><header class = 'top' role = 'banner'><h1>Flight Status</h1></header></div>");
+	tablinks = document.getElementsByClassName("tab_link");
+		for (i = 0; i < tablinks.length; i++) {
+			tablinks[i].style.backgroundColor = "";
+		}
+	elmnt.style.backgroundColor = '#4285f4';
+	section.append("<div id = 'info'><div>");
+	let info = $('#info');
+
+	info.append("<h2> Arrivals or Departures? </h2>");
+	info.append("<form><input type = 'radio' name = 'arde' value = 'arrival'> Arrivals <br><input type = 'radio' name = 'arde' value = 'departure'> Departures <br></form>");
+
+	info.append("<div><button id = 'submit' class = 'button'> Submit </button></div>");
+	info.append("<div class = 'table'></div>");
+	$('#submit').on('click', function() {
+		$('.table').empty();
+		$('.table').append(`<table id = 'disTab'><thead><tr>
+		<th onclick="w3.sortHTML('#disTab', '.item', 'td:nth-child(1)')" style="cursor:pointer">Airline</th>
+		<th onclick="w3.sortHTML('#disTab', '.item', 'td:nth-child(2)')" style="cursor:pointer">From</th>
+		<th onclick="w3.sortHTML('#disTab', '.item', 'td:nth-child(3)')" style="cursor:pointer">To</th>
+		<th onclick="w3.sortHTML('#disTab', '.item', 'td:nth-child(4)')" style="cursor:pointer">Depart Time</th>
+		<th onclick="w3.sortHTML('#disTab', '.item', 'td:nth-child(5)')" style="cursor:pointer">Arrival Time</th>
+		<th onclick="w3.sortHTML('#disTab', '.item', 'td:nth-child(6)')" style="cursor:pointer">Flight No.</th>
+		</tr></thead>`);
+		$('#disTab').append("<tbody id = 'tableBod'></tbody>");
+
+		$.ajax(root_url + "flights",
+		{
+			type: 'GET',
+			xhrFields: {
+				withCredentials: true
+			},
+			success: (flight) => {
+				console.log(flight.length);
+				var radioValue;
+				radioValue = $("input[name='arde']:checked").val();
+				console.log(radioValue);
+				for (let i = 0; i < flight.length; i++) {
+				a = flight[i];
+				a_id = a.airline_id;
+				let airline_name;
+				if (a_id == 2547) {
+						airline_name = 'Alaska Airlines';
+				} else if (a_id == 2546) {
+						airline_name = 'JetBlue Airways';
+				} else if (a_id == 2545) {
+						airline_name = 'Frontier Airlines';
+					} else if (a_id == 2544) {
+						airline_name = 'Southwest Airlines';
+					} else if (a_id == 2543) {
+						airline_name = 'United Airlines';
+					} else if (a_id == 2542) {
+						airline_name = 'Delta Airlines';
+					} else if (a_id == 2541) {
+						airline_name = 'American Airlines';
+					}
+					d_id = a.departure_id;
+					ar_id = a.arrival_id;
+					let depart_airport;
+					let arrival_airport;
+					if (d_id == 73306) {
+						depart_airport = 'SEA';
+					} else if (d_id == 20676) {
+						depart_airport = 'LAX';
+					} else if (d_id == 20675) {
+						depart_airport = 'SFO';
+					} else if (d_id == 20674) {
+						depart_airport = 'DEN';
+					} else if (d_id == 20673) {
+						depart_airport = 'IAH';
+					} else if (d_id == 20672) {
+						depart_airport = 'ORD';
+					} else if (d_id == 20671) {
+						depart_airport = 'BOS';
+					} else if (d_id == 20670) {
+						depart_airport = 'JFK';
+					} else if (d_id == 20669) {
+						depart_airport = 'ATL';
+					} else if (d_id == 20668) {
+						depart_airport = 'IAD';
+					} else if (d_id == 20667) {
+						depart_airport = 'RDU';
+					}
+
+					if (ar_id == 73306) {
+						arrival_airport = 'SEA';
+					} else if (ar_id == 20676) {
+						arrival_airport = 'LAX';
+					} else if (ar_id == 20675) {
+						arrival_airport = 'SFO';
+					} else if (ar_id == 20674) {
+						arrival_airport = 'DEN';
+					} else if (ar_id == 20673) {
+						arrival_airport = 'IAH';
+					} else if (ar_id == 20672) {
+						arrival_airport = 'ORD';
+					} else if (ar_id == 20671) {
+						arrival_airport = 'BOS';
+					} else if (ar_id == 20670) {
+						arrival_airport = 'JFK';
+					} else if (ar_id == 20669) {
+						arrival_airport = 'ATL';
+					} else if (ar_id == 20668) {
+						arrival_airport = 'IAD';
+					} else if (ar_id == 20667) {
+						arrival_airport = 'RDU';
+					}
+				let dep_time = new Date(a.departs_at);
+				let conv_dep_time = moment(dep_time * 1000).format('HH:mm')
+				let arr_time = new Date(a.arrives_at);
+				let conv_arr_time = moment(arr_time * 1000).format('HH:mm')
+				
+				if (radioValue == 'departure') {
+					if (depart_airport == 'RDU') {
+						$('#disTab').append("<tr class='item'><td>" + airline_name + "</td><td>" + depart_airport + "</td><td>" +
+					arrival_airport + "</td><td>" + conv_dep_time + "</td><td>" + conv_arr_time + "</td><td>" + a.number + "</tr>");
+					}
+				} else if (radioValue == 'arrival') {
+					if (arrival_airport == 'RDU') {
+						$('#disTab').append("<tr class='item'><td>" + airline_name + "</td><td>" + depart_airport + "</td><td>" +
+						arrival_airport + "</td><td>" + conv_dep_time + "</td><td>" + conv_arr_time + "</td><td>" + a.number + "</tr>");
+					}
+				}
+				
+				
+
+				}
+			}
+		});
+	});
 };
 
 // GOOGLE MAPS API KEY AIzaSyBs0A4Cgt04LwXWEdMNbEtRDOdWwJx9Yrg
