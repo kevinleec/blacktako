@@ -194,8 +194,8 @@ var build_search_interface = function (elmnt) {
     <th onclick="w3.sortHTML('#disTab', '.item', 'td:nth-child(2)')" style="cursor:pointer">Flight No.</th>
     <th onclick="w3.sortHTML('#disTab', '.item', 'td:nth-child(3)')" style="cursor:pointer">Origin</th>
     <th onclick="w3.sortHTML('#disTab', '.item', 'td:nth-child(4)')" style="cursor:pointer">Destination</th>
-    <th onclick="w3.sortHTML('#disTab', '.item', 'td:nth-child(5)')" style="cursor:pointer">Depart Time</th>
-    <th onclick="w3.sortHTML('#disTab', '.item', 'td:nth-child(6)')" style="cursor:pointer">Arrival Time</th>
+    <th onclick="w3.sortHTML('#disTab', '.item', 'td:nth-child(5)')" style="cursor:pointer">Departure</th>
+    <th onclick="w3.sortHTML('#disTab', '.item', 'td:nth-child(6)')" style="cursor:pointer">Arrival</th>
     </tr></thead>`);
     $('#disTab').append("<tbody id = 'tableBod'></tbody>");
 
@@ -234,50 +234,72 @@ var build_search_interface = function (elmnt) {
           let arrival_airport;
           if (d_id == 73306) {
             depart_airport = 'SEA';
+            depart_city = 'Seattle, WA';
           } else if (d_id == 20676) {
             depart_airport = 'LAX';
+            depart_city = 'Los Angeles, CA';
           } else if (d_id == 20675) {
             depart_airport = 'SFO';
+            depart_city = 'San Francisco, CA';
           } else if (d_id == 20674) {
             depart_airport = 'DEN';
+            depart_city = 'Denver, CO';
           } else if (d_id == 20673) {
             depart_airport = 'IAH';
+            depart_city = 'Houston, TX';
           } else if (d_id == 20672) {
             depart_airport = 'ORD';
+            depart_city = 'Chicago, IL';
           } else if (d_id == 20671) {
             depart_airport = 'BOS';
+            depart_city = 'Boston, MA';
           } else if (d_id == 20670) {
             depart_airport = 'JFK';
+            depart_city = 'New York, NY';
           } else if (d_id == 20669) {
             depart_airport = 'ATL';
+            depart_city = 'Atlanta, GA';
           } else if (d_id == 20668) {
             depart_airport = 'IAD';
+            depart_city = 'Washington, DC';
           } else if (d_id == 20667) {
             depart_airport = 'RDU';
+            depart_city = 'Raleigh, NC';
           }
 
           if (ar_id == 73306) {
             arrival_airport = 'SEA';
+            arrival_city = 'Seattle, WA';
           } else if (ar_id == 20676) {
             arrival_airport = 'LAX';
+            arrival_city = 'Los Angeles, CA';
           } else if (ar_id == 20675) {
             arrival_airport = 'SFO';
+            arrival_city = 'San Francisco, CA';
           } else if (ar_id == 20674) {
             arrival_airport = 'DEN';
+            arrival_city = 'Denver, CO';
           } else if (ar_id == 20673) {
             arrival_airport = 'IAH';
+            arrival_city = 'Houston, TX';
           } else if (ar_id == 20672) {
             arrival_airport = 'ORD';
+            arrival_city = 'Chicago, IL';
           } else if (ar_id == 20671) {
             arrival_airport = 'BOS';
+            arrival_city = 'Boston, MA';
           } else if (ar_id == 20670) {
             arrival_airport = 'JFK';
+            arrival_city = 'New York, NY';
           } else if (ar_id == 20669) {
             arrival_airport = 'ATL';
+            arrival_city = 'Atlanta, GA';
           } else if (ar_id == 20668) {
             arrival_airport = 'IAD';
+            arrival_city = 'Washington, DC';
           } else if (ar_id == 20667) {
             arrival_airport = 'RDU';
+            arrival_city = 'Raleigh, NC';
           }
           let dep_time = new Date(a.departs_at);
           let conv_dep_time = moment(dep_time * 1000).format('HH:mm')
@@ -286,21 +308,21 @@ var build_search_interface = function (elmnt) {
 
           if (airline == '' && airport == '') {
             $('#disTab').append("<tr class='item'><td>" + airline_name + "</td><td>" + a.number + "</td><td>" +
-            depart_airport + "</td><td>" + arrival_airport + "</td><td>" + conv_dep_time + "</td><td>" + conv_arr_time + "</td></tr>");
+            depart_city + "</td><td>" + arrival_city + "</td><td>" + conv_dep_time + "</td><td>" + conv_arr_time + "</td></tr>");
           } else if (airline != '' && airport == '') {
             if (airline_name == airline) {
               $('#disTab').append("<tr class='item'><td>" + airline_name + "</td><td>" + a.number + "</td><td>" +
-              depart_airport + "</td><td>" + arrival_airport + "</td><td>" + conv_dep_time + "</td><td>" + conv_arr_time + "</td></tr>");
+              depart_city + "</td><td>" + arrival_city + "</td><td>" + conv_dep_time + "</td><td>" + conv_arr_time + "</td></tr>");
             }
           } else if (airline == '' && airport != '') {
             if (depart_airport == airport || arrival_airport == airport) {
               $('#disTab').append("<tr class='item'><td>" + airline_name + "</td><td>" + a.number + "</td><td>" +
-              depart_airport + "</td><td>" + arrival_airport + "</td><td>" + conv_dep_time + "</td><td>" + conv_arr_time + "</td></tr>");
+              depart_city + "</td><td>" + arrival_city + "</td><td>" + conv_dep_time + "</td><td>" + conv_arr_time + "</td></tr>");
             }
           } else if (airline != '' && airport != '') {
             if (airline_name == airline && (arrival_airport == airport || depart_airport == airport)) {
               $('#disTab').append("<tr class='item'><td>" + airline_name + "</td><td>" + a.number + "</td><td>" +
-              depart_airport + "</td><td>" + arrival_airport + "</td><td>" + conv_dep_time + "</td><td>" + conv_arr_time + "</td></tr>");
+              depart_city + "</td><td>" + arrival_city + "</td><td>" + conv_dep_time + "</td><td>" + conv_arr_time + "</td></tr>");
             }
           }
 
@@ -308,7 +330,7 @@ var build_search_interface = function (elmnt) {
       }
     });
   });
-}
+};
 var build_departure_table = function(elmnt) {
   let section = $('section');
 
@@ -364,49 +386,72 @@ var build_departure_table = function(elmnt) {
         let arrival_airport;
         if (d_id == 73306) {
           depart_airport = 'SEA';
+          depart_city = 'Seattle, WA';
         } else if (d_id == 20676) {
           depart_airport = 'LAX';
+          depart_city = 'Los Angeles, CA';
         } else if (d_id == 20675) {
           depart_airport = 'SFO';
+          depart_city = 'San Francisco, CA';
         } else if (d_id == 20674) {
           depart_airport = 'DEN';
+          depart_city = 'Denver, CO';
         } else if (d_id == 20673) {
           depart_airport = 'IAH';
+          depart_city = 'Houston, TX';
         } else if (d_id == 20672) {
           depart_airport = 'ORD';
+          depart_city = 'Chicago, IL';
         } else if (d_id == 20671) {
           depart_airport = 'BOS';
+          depart_city = 'Boston, MA';
         } else if (d_id == 20670) {
           depart_airport = 'JFK';
+          depart_city = 'New York, NY';
         } else if (d_id == 20669) {
           depart_airport = 'ATL';
+          depart_city = 'Atlanta, GA';
         } else if (d_id == 20668) {
           depart_airport = 'IAD';
+          depart_city = 'Washington, DC';
         } else if (d_id == 20667) {
           depart_airport = 'RDU';
+          depart_city = 'Raleigh, NC';
         }
+
         if (ar_id == 73306) {
           arrival_airport = 'SEA';
+          arrival_city = 'Seattle, WA';
         } else if (ar_id == 20676) {
           arrival_airport = 'LAX';
+          arrival_city = 'Los Angeles, CA';
         } else if (ar_id == 20675) {
           arrival_airport = 'SFO';
+          arrival_city = 'San Francisco, CA';
         } else if (ar_id == 20674) {
           arrival_airport = 'DEN';
+          arrival_city = 'Denver, CO';
         } else if (ar_id == 20673) {
           arrival_airport = 'IAH';
+          arrival_city = 'Houston, TX';
         } else if (ar_id == 20672) {
           arrival_airport = 'ORD';
+          arrival_city = 'Chicago, IL';
         } else if (ar_id == 20671) {
           arrival_airport = 'BOS';
+          arrival_city = 'Boston, MA';
         } else if (ar_id == 20670) {
           arrival_airport = 'JFK';
+          arrival_city = 'New York, NY';
         } else if (ar_id == 20669) {
           arrival_airport = 'ATL';
+          arrival_city = 'Atlanta, GA';
         } else if (ar_id == 20668) {
           arrival_airport = 'IAD';
+          arrival_city = 'Washington, DC';
         } else if (ar_id == 20667) {
           arrival_airport = 'RDU';
+          arrival_city = 'Raleigh, NC';
         }
         let dep_time = new Date(a.departs_at);
         let conv_dep_time = moment(dep_time * 1000).format('HH:mm')
@@ -414,7 +459,7 @@ var build_departure_table = function(elmnt) {
         let conv_arr_time = moment(arr_time * 1000).format('HH:mm')
 
         if (depart_airport == 'RDU') {
-          $('#disTab').append("<tr class='item'><td>" + airline_name + "</td><td>" + a.number + "</td><td>" + arrival_airport + "</td><td>" + conv_dep_time + "</td><td>" + conv_arr_time + "</td></tr>");
+          $('#disTab').append("<tr class='item'><td>" + airline_name + "</td><td>" + a.number + "</td><td>" + arrival_city + "</td><td>" + conv_dep_time + "</td><td>" + conv_arr_time + "</td></tr>");
         }
       }
     }
@@ -475,49 +520,72 @@ var build_arrival_table = function(elmnt) {
         let arrival_airport;
         if (d_id == 73306) {
           depart_airport = 'SEA';
+          depart_city = 'Seattle, WA';
         } else if (d_id == 20676) {
           depart_airport = 'LAX';
+          depart_city = 'Los Angeles, CA';
         } else if (d_id == 20675) {
           depart_airport = 'SFO';
+          depart_city = 'San Francisco, CA';
         } else if (d_id == 20674) {
           depart_airport = 'DEN';
+          depart_city = 'Denver, CO';
         } else if (d_id == 20673) {
           depart_airport = 'IAH';
+          depart_city = 'Houston, TX';
         } else if (d_id == 20672) {
           depart_airport = 'ORD';
+          depart_city = 'Chicago, IL';
         } else if (d_id == 20671) {
           depart_airport = 'BOS';
+          depart_city = 'Boston, MA';
         } else if (d_id == 20670) {
           depart_airport = 'JFK';
+          depart_city = 'New York, NY';
         } else if (d_id == 20669) {
           depart_airport = 'ATL';
+          depart_city = 'Atlanta, GA';
         } else if (d_id == 20668) {
           depart_airport = 'IAD';
+          depart_city = 'Washington, DC';
         } else if (d_id == 20667) {
           depart_airport = 'RDU';
+          depart_city = 'Raleigh, NC';
         }
+
         if (ar_id == 73306) {
           arrival_airport = 'SEA';
+          arrival_city = 'Seattle, WA';
         } else if (ar_id == 20676) {
           arrival_airport = 'LAX';
+          arrival_city = 'Los Angeles, CA';
         } else if (ar_id == 20675) {
           arrival_airport = 'SFO';
+          arrival_city = 'San Francisco, CA';
         } else if (ar_id == 20674) {
           arrival_airport = 'DEN';
+          arrival_city = 'Denver, CO';
         } else if (ar_id == 20673) {
           arrival_airport = 'IAH';
+          arrival_city = 'Houston, TX';
         } else if (ar_id == 20672) {
           arrival_airport = 'ORD';
+          arrival_city = 'Chicago, IL';
         } else if (ar_id == 20671) {
           arrival_airport = 'BOS';
+          arrival_city = 'Boston, MA';
         } else if (ar_id == 20670) {
           arrival_airport = 'JFK';
+          arrival_city = 'New York, NY';
         } else if (ar_id == 20669) {
           arrival_airport = 'ATL';
+          arrival_city = 'Atlanta, GA';
         } else if (ar_id == 20668) {
           arrival_airport = 'IAD';
+          arrival_city = 'Washington, DC';
         } else if (ar_id == 20667) {
           arrival_airport = 'RDU';
+          arrival_city = 'Raleigh, NC';
         }
         let dep_time = new Date(a.departs_at);
         let conv_dep_time = moment(dep_time * 1000).format('HH:mm')
@@ -525,12 +593,14 @@ var build_arrival_table = function(elmnt) {
         let conv_arr_time = moment(arr_time * 1000).format('HH:mm')
 
         if (arrival_airport == 'RDU') {
-          $('#disTab').append("<tr class='item'><td>" + airline_name + "</td><td>" + a.number + "</td><td>" + depart_airport + "</td><td>" + conv_dep_time + "</td><td>" + conv_arr_time + "</td></tr>");
+          $('#disTab').append("<tr class='item'><td>" + airline_name + "</td><td>" + a.number + "</td><td>" + depart_city + "</td><td>" + conv_dep_time + "</td><td>" + conv_arr_time + "</td></tr>");
         }
       }
     }
   });
 };
+
+
 
 
 var build_airlines_interface = function(elmnt) {
