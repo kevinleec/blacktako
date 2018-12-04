@@ -111,9 +111,14 @@ table th {
 }
 
 .top h1 {
-  position: absolute;
-  bottom: -25px;
-  left: 18px;
+  float: left;
+  margin-top: 32px;
+  margin-left: 18px;
+}
+
+.top img {
+  position: relative;
+  padding: 20px;
 }
 
 #dark {
@@ -122,4 +127,12 @@ table th {
 
 #blue {
   background-color: #4285f4;
+}
+
+div.dep {
+  content:url('icons8-airplane-take-off-30(1).png');
+}
+
+div.arr {
+  content:url('icons8-airplane-landing-30(1).png');
 }

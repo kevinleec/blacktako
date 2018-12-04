@@ -335,7 +335,7 @@ var build_departure_table = function(elmnt) {
   let section = $('section');
 
   section.empty();
-  section.append("<div class = 'topdiv' id = 'blue'><header class = 'top' role = 'banner'><h1>All Departures</h1></header></div>");
+  section.append("<div class = 'topdiv' id = 'blue'><header class = 'top' role = 'banner'><h1>All Departures</h1><img src='images/depart.png' alt='logo'/></header></div>");
   tablinks = document.getElementsByClassName("tab_link");
   for (i = 0; i < tablinks.length; i++) {
     tablinks[i].style.backgroundColor = "";
@@ -469,7 +469,7 @@ var build_arrival_table = function(elmnt) {
   let section = $('section');
 
   section.empty();
-  section.append("<div class = 'topdiv' id = 'blue'><header class = 'top' role = 'banner'><h1>All Arrivals</h1></header></div>");
+  section.append("<div class = 'topdiv' id = 'blue'><header class = 'top' role = 'banner'><h1>All Arrivals</h1><img src='images/arrival.png' alt='logo'/></header></div>");
   tablinks = document.getElementsByClassName("tab_link");
   for (i = 0; i < tablinks.length; i++) {
     tablinks[i].style.backgroundColor = "";
