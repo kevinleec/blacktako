@@ -138,6 +138,7 @@ var tab_interface = function () {
 }
 
 var build_search_interface = function (elmnt) {
+  var numbers=[];
   $('head').append("<script src='https://maps.googleapis.com/maps/api/js?key=AIzaSyBs0A4Cgt04LwXWEdMNbEtRDOdWwJx9Yrg&callback=initMap' async defer></script>");
   let section = $('section');
   tablinks = document.getElementsByClassName("tab_link");
@@ -153,17 +154,20 @@ var build_search_interface = function (elmnt) {
 
   let airline_list = $("<form id = 'airline_form'><select id = 'airline'></select></form>");
   let airport_list = $("<form id = 'airport_form'><select id = 'airport' onchange = 'updateLocation()'></select></form>");
+  let autocomplete_form=$("<div id=autocomplete-div><form autocomplete=off><input id=autocomplete-input type=text name=flightid placeholder= 'Flight Number'></form></div>");
   info.append(airline_list);
-
   info.append("<h2> Select an Airport </h2>");
   info.append(airport_list);
-
+  info.append("<h2> Find by Flight Number </h2>");
+  info.append(autocomplete_form);
+  info.append("<br>");
   section.append("<div id = 'map'></div>");
   $('#airline').append("<option value = ''> Select an Airline </option>");
   $('#airport').append("<option value = ''> Select an Airport </option>");
+
   info.append("<div><button id = 'submit' class = 'button'> Submit </button></div>");
   info.append("<div class = 'table2'></div>");
-
+  let autocomplete_input=document.getElementById('autocomplete-input');
   $.ajax(root_url + "airlines",
   {
     type: 'GET',
@@ -175,7 +179,21 @@ var build_search_interface = function (elmnt) {
 
     }
   });
-
+  $.ajax(root_url + "flights",
+  {
+    type: 'GET',
+    xhrFields: {
+      withCredentials: true
+    },
+    success: (flight) => {
+      console.log(flight.length);
+      for (let i = 0; i < flight.length; i++) {
+        a = flight[i];
+        numbers.push(a.number);
+      }
+    }
+  });
+  autocomplete(autocomplete_input,numbers);
   $.ajax(root_url + "airports",
   {
     type: 'GET',
@@ -212,6 +230,7 @@ var build_search_interface = function (elmnt) {
         for (let i = 0; i < flight.length; i++) {
           a = flight[i];
           a_id = a.airline_id;
+          numbers.push(a.number);
           let airline_name;
           if (a_id == 2547) {
             airline_name = 'Alaska Airlines';
@@ -325,7 +344,6 @@ var build_search_interface = function (elmnt) {
               depart_city + "</td><td>" + arrival_city + "</td><td>" + conv_dep_time + "</td><td>" + conv_arr_time + "</td></tr>");
             }
           }
-
         }
       }
     });
@@ -735,4 +753,81 @@ var build_airlines_interface = function(elmnt) {
     });
   });
 };
+function autocomplete(input,numbers){
+  let focused_selection;
+  input.addEventListener('input',function(e){
+    let value=this.value;
+    closelists(input);
+    if(!value){
+      return false;
+    }
+    focused_selection=-1;
+    div1=$('<div></div>');
+    div1.attr('id',this.id+'autocomplete-matches');
+    div1.attr('class','autocomplete-strings');
+    $(this).parent().append(div1);
+    for(i=0;i<numbers.length;i++){
+      if(numbers[i].substring(0,value.length).toLowerCase()==value.toLowerCase()){
+        div2=document.createElement('DIV');
+        div2.innerHTML=(numbers[i]+'<input type=hidden value='+numbers[i]+'>');
+        div2.addEventListener('click',function(e){
+          input.value=this.getElementsByTagName('input')[0].value;
+          closelists(input);
+        });
+        div1.append(div2);
+      }
+    }
+  });
+  input.addEventListener('keydown',function(e){
+    let list=document.getElementById(this.id+'autocomplete-matches')
+    if(list){
+      list=list.getElementsByTagName('div');
+      if(e.keyCode==40){
+        focused_selection++;
+        make_active(list,focused_selection);
+      }
+      else if(e.keyCode==38){
+        focused_selection--;
+        make_active(list,focused_selection);
+      }
+      else if(e.keyCode==13){
+        e.preventDefault();
+        if(focused_selection>-1){
+          if(list){
+            list[focused_selection].click();
+          }
+        }
+      }
+    }
+  });
+  document.addEventListener('click',function(e){
+    closelists(input);
+  });
+}
+function make_active(list,focused_selection){
+  if(!list){
+    return false;
+  }
+  make_inactive(list);
+  if(focused_selection>=list.length){
+    focused_selection=0;
+  }
+  if(focused_selection<0){
+    focused_selection=list.length-1;
+  }
+  list[focused_selection].classList.add('autocomplete-active');
+}
+function make_inactive(list){
+  for(i=0;i<list.length;i++){
+    list[i].classList.remove("autocomplete-active");
+  }
+}
+function closelists(input,element){
+  let list=document.getElementsByClassName('autocomplete-strings');
+  for(let i=0;i<list.length;i++){
+    if(element!=list[i] && element!=input){
+      list[i].parentNode.removeChild(list[i]);
+    }
+  }
+}
 // GOOGLE MAPS API KEY AIzaSyBs0A4Cgt04LwXWEdMNbEtRDOdWwJx9Yrg
