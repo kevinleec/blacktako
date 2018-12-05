@@ -32,7 +32,7 @@ body {
 .table {
   padding-top: 10px;
   overflow-y: auto;
-  width: 72%;
+  width: 59%;
   height: 75vh;
 }
 
@@ -47,7 +47,7 @@ table, th, td {
 th, td {
   padding: 15px;
   text-align: left;
-  padding-right: 80px;
+  padding-right: 30px;
 }
 
 table tr:nth-child(even) {
@@ -127,4 +127,20 @@ table th {
 
 #blue {
   background-color: #4285f4;
+}
+
+#video {
+  float: right;
+  display: inline-block;
+  margin-top: -510px;
+  margin-right: 5px;
+}
+
+#elementMap {
+  float: right;
+  display: inline-block;
+  margin-top: -510px;
+  margin-right: 5px;
+  height: 300px;
+  width: 500px;
 }
