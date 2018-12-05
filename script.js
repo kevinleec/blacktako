@@ -321,9 +321,9 @@ var build_search_interface = function (elmnt) {
             arrival_city = 'Raleigh, NC';
           }
           let dep_time = new Date(a.departs_at);
-          let conv_dep_time = moment(dep_time * 1000).format('HH:mm')
+          let conv_dep_time = moment(dep_time).format('HH:mm')
           let arr_time = new Date(a.arrives_at);
-          let conv_arr_time = moment(arr_time * 1000).format('HH:mm')
+          let conv_arr_time = moment(arr_time).format('HH:mm')
 
           if (airline == '' && airport == '') {
             $('#disTab').append("<tr class='item'><td>" + airline_name + "</td><td>" + a.number + "</td><td>" +
@@ -473,9 +473,9 @@ var build_departure_table = function(elmnt) {
           arrival_city = 'Raleigh, NC';
         }
         let dep_time = new Date(a.departs_at);
-        let conv_dep_time = moment(dep_time * 1000).format('HH:mm')
+        let conv_dep_time = moment(dep_time).format('HH:mm')
         let arr_time = new Date(a.arrives_at);
-        let conv_arr_time = moment(arr_time * 1000).format('HH:mm')
+        let conv_arr_time = moment(arr_time).format('HH:mm')
 
         if (depart_airport == 'RDU') {
           $('#disTab').append("<tr class='item'><td>" + airline_name + "</td><td>" + a.number + "</td><td>" + arrival_city + "</td><td>" + conv_dep_time + "</td><td>" + conv_arr_time + "</td></tr>");
@@ -609,9 +609,9 @@ var build_arrival_table = function(elmnt) {
           arrival_city = 'Raleigh, NC';
         }
         let dep_time = new Date(a.departs_at);
-        let conv_dep_time = moment(dep_time * 1000).format('HH:mm')
+        let conv_dep_time = moment(dep_time).format('HH:mm')
         let arr_time = new Date(a.arrives_at);
-        let conv_arr_time = moment(arr_time * 1000).format('HH:mm')
+        let conv_arr_time = moment(arr_time).format('HH:mm')
 
         if (arrival_airport == 'RDU') {
           $('#disTab').append("<tr class='item'><td>" + airline_name + "</td><td>" + a.number + "</td><td>" + depart_city + "</td><td>" + conv_dep_time + "</td><td>" + conv_arr_time + "</td></tr>");
