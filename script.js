@@ -774,6 +774,7 @@ function autocomplete(input,numbers){
         div2.innerHTML=(numbers[i]+'<input type=hidden value='+numbers[i]+'>');
         div2.addEventListener('click',function(e){
           input.value=this.getElementsByTagName('input')[0].value;
+          console.log(getSearchValue());
           closelists(input);
         });
         div1.append(div2);
@@ -831,5 +832,8 @@ function closelists(input,element){
       list[i].parentNode.removeChild(list[i]);
     }
   }
+}
+function getSearchValue(){
+  return document.getElementById('autocomplete-input').value;
 }
 // GOOGLE MAPS API KEY AIzaSyBs0A4Cgt04LwXWEdMNbEtRDOdWwJx9Yrg
