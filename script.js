@@ -370,7 +370,7 @@ var build_departure_table = function(elmnt) {
   <th onclick="w3.sortHTML('#disTab', '.item', 'td:nth-child(4)')" style="cursor:pointer">Depart Time</th>
   <th onclick="w3.sortHTML('#disTab', '.item', 'td:nth-child(5)')" style="cursor:pointer">Arrival Time</th>
   </tr></thead>`);
-  info.append("<div id = 'video'><iframe width='500' height='300' src='https://www.youtube.com/embed/P9FoitNKVjA' frameborder='0' allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture' allowfullscreen></iframe></div>");
+  info.append("<div id = 'video'><iframe width='510' height='330' src='https://www.youtube.com/embed/P9FoitNKVjA' frameborder='0' allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture' allowfullscreen></iframe></div>");
 
   $('#disTab').append("<tbody id = 'tableBod'></tbody>");
   $.ajax(root_url + "flights",
@@ -505,6 +505,7 @@ var build_arrival_table = function(elmnt) {
   <th onclick="w3.sortHTML('#disTab', '.item', 'td:nth-child(4)')" style="cursor:pointer">Depart Time</th>
   <th onclick="w3.sortHTML('#disTab', '.item', 'td:nth-child(5)')" style="cursor:pointer">Arrival Time</th>
   </tr></thead>`);
+  info.append("<div class = 'mapTitle' id = 'blue'><header class = 'title' role = 'banner'><h3>Current Air Traffic To/From RDU</h3></header></div>")
   info.append("<img id='elementMap' src='https://tracker.flightview.com/fvAccessCommonCgimap/FlightViewCGI.exe?qtype=gif&amp;find5=airport&amp;arrap=RDU2&amp;temp=1543966789525'>");
 
   $('#disTab').append("<tbody id = 'tableBod'></tbody>");

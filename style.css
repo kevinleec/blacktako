@@ -133,14 +133,20 @@ table th {
   float: right;
   display: inline-block;
   margin-top: -510px;
-  margin-right: 5px;
 }
 
 #elementMap {
   float: right;
   display: inline-block;
+  margin-top: -454px;
+  height: 340px;
+  width: 510px;
+}
+
+.mapTitle {
+  width: 495px;
+  float: right;
   margin-top: -510px;
-  margin-right: 5px;
-  height: 300px;
-  width: 500px;
+  padding-left: 15px;
+  color: white;
 }
