@@ -128,7 +128,6 @@ table th {
 #blue {
   background-color: #4285f4;
 }
-<<<<<<< HEAD
 
 #video {
   float: right;
@@ -144,8 +143,4 @@ table th {
   margin-right: 5px;
   height: 300px;
   width: 500px;
-=======
-.autocomplete-active{
-  background-color: #4285f4;
->>>>>>> a0e0de67fc2a774c9f16a204ee81af44c6327e9f
 }
