@@ -194,6 +194,7 @@ var build_search_interface = function (elmnt) {
     }
   });
   autocomplete(autocomplete_input,numbers);
+
   $.ajax(root_url + "airports",
   {
     type: 'GET',
@@ -229,7 +230,8 @@ var build_search_interface = function (elmnt) {
         airport = document.getElementById('airport').value;
         for (let i = 0; i < flight.length; i++) {
           a = flight[i];
-          a_id = a.airline_id;
+		  a_id = a.airline_id;
+		  flight_number = a.number;
           numbers.push(a.number);
           let airline_name;
           if (a_id == 2547) {
@@ -323,11 +325,19 @@ var build_search_interface = function (elmnt) {
           let dep_time = new Date(a.departs_at);
           let conv_dep_time = moment(dep_time).format('HH:mm')
           let arr_time = new Date(a.arrives_at);
-          let conv_arr_time = moment(arr_time).format('HH:mm')
+		  let conv_arr_time = moment(arr_time).format('HH:mm')
 
-          if (airline == '' && airport == '') {
+		  let autocomplete_result = getSearchValue();
+		  console.log(autocomplete_result);
+		  
+		  if (airline == '' && airport == '' && autocomplete_result == '') {
             $('#disTab').append("<tr class='item'><td>" + airline_name + "</td><td>" + a.number + "</td><td>" +
             depart_city + "</td><td>" + arrival_city + "</td><td>" + conv_dep_time + "</td><td>" + conv_arr_time + "</td></tr>");
+          } else if (airline == '' && airport == '' && autocomplete_result != '') {
+			if (flight_number == autocomplete_result) {
+				$('#disTab').append("<tr class='item'><td>" + airline_name + "</td><td>" + a.number + "</td><td>" +
+				depart_city + "</td><td>" + arrival_city + "</td><td>" + conv_dep_time + "</td><td>" + conv_arr_time + "</td></tr>");
+			}
           } else if (airline != '' && airport == '') {
             if (airline_name == airline) {
               $('#disTab').append("<tr class='item'><td>" + airline_name + "</td><td>" + a.number + "</td><td>" +
@@ -343,7 +353,9 @@ var build_search_interface = function (elmnt) {
               $('#disTab').append("<tr class='item'><td>" + airline_name + "</td><td>" + a.number + "</td><td>" +
               depart_city + "</td><td>" + arrival_city + "</td><td>" + conv_dep_time + "</td><td>" + conv_arr_time + "</td></tr>");
             }
-          }
+		  }
+		  
+		  
         }
       }
     });
