@@ -131,7 +131,7 @@ var tab_interface = function () {
   let section = $('section');
 
   body.empty();
-  body.append("<div class = 'tabs'><button class = 'tab_link' onclick = 'build_search_interface(this)' id = 'defaultOpen'>Search</button><button class = 'tab_link' onclick = 'build_departure_table(this)'>Departures</button><button class = 'tab_link' onclick = 'build_arrival_table(this)'>Arrivals</button><button class = 'tab_link' onclick = 'build_post_interface(this)'>blah</button></div>");
+  body.append("<div class = 'tabs'><button class = 'tab_link' onclick = 'build_search_interface(this)' id = 'defaultOpen'>Search</button><button class = 'tab_link' onclick = 'build_departure_table(this)'>Departures</button><button class = 'tab_link' onclick = 'build_arrival_table(this)'>Arrivals</button><button class = 'tab_link' onclick = 'build_post_interface(this)'>Book</button></div>");
   body.append("<section></section>");
   document.getElementById("defaultOpen").click();
 
@@ -636,7 +636,7 @@ var build_post_interface = function(elmnt) {
   let section = $('section');
 
   section.empty();
-  section.append("<div class = 'topdiv' id = 'green'><header class = 'top' role = 'banner'><h1>blah</h1></header></div>");
+  section.append("<div class = 'topdiv' id = 'green'><header class = 'top' role = 'banner'><h1> Book a Flight </h1></header></div>");
   tablinks = document.getElementsByClassName("tab_link");
   for (i = 0; i < tablinks.length; i++) {
     tablinks[i].style.backgroundColor = "";
@@ -644,143 +644,199 @@ var build_post_interface = function(elmnt) {
   elmnt.style.backgroundColor = '#009999';
   section.append("<div id = 'info'></div>");
   let info = $('#info');
-};
+  info.append("<h2> Personal Information </h2>");
+  info.append("<div> First Name: <input id = 'firstName' type = 'text'> Last Name: <input id = 'lastName' type = 'text'> Age: <input id = 'age' type = 'number'> Gender: <input id = 'gender' type = 'text'> </div><h2> Flight Information </h2><div>Flight Number: <input id = 'flightNo' type = 'text'> Date: <input id = 'date' type = 'date'></div>");
+  info.append("<div><button id = 'submit' class = 'button'> Book </button></div>");
 
-
-
-
-var build_airlines_interface = function(elmnt) {
-  let section = $('section');
-
-  section.empty();
-  section.append("<div class = 'topdiv' id = 'blue'><header class = 'top' role = 'banner'><h1>Flight Status</h1></header></div>");
-  tablinks = document.getElementsByClassName("tab_link");
-  for (i = 0; i < tablinks.length; i++) {
-    tablinks[i].style.backgroundColor = "";
-  }
-  elmnt.style.backgroundColor = '#4285f4';
-  section.append("<div id = 'info'><div>");
-  let info = $('#info');
-
-  info.append("<h2> Arrivals or Departures? </h2>");
-  info.append("<form><input type = 'radio' name = 'arde' value = 'arrival'> Arrivals <br><input type = 'radio' name = 'arde' value = 'departure'> Departures <br></form>");
-
-  info.append("<div><button id = 'submit' class = 'button'> Submit </button></div>");
-  info.append("<div class = 'table'></div>");
+  
   $('#submit').on('click', function() {
-    $('.table').empty();
-    $('.table').append(`<table id = 'disTab'><thead><tr>
-    <th onclick="w3.sortHTML('#disTab', '.item', 'td:nth-child(1)')" style="cursor:pointer">Airline</th>
-    <th onclick="w3.sortHTML('#disTab', '.item', 'td:nth-child(2)')" style="cursor:pointer">From</th>
-    <th onclick="w3.sortHTML('#disTab', '.item', 'td:nth-child(3)')" style="cursor:pointer">To</th>
-    <th onclick="w3.sortHTML('#disTab', '.item', 'td:nth-child(4)')" style="cursor:pointer">Depart Time</th>
-    <th onclick="w3.sortHTML('#disTab', '.item', 'td:nth-child(5)')" style="cursor:pointer">Arrival Time</th>
-    <th onclick="w3.sortHTML('#disTab', '.item', 'td:nth-child(6)')" style="cursor:pointer">Flight No.</th>
-    </tr></thead>`);
-    $('#disTab').append("<tbody id = 'tableBod'></tbody>");
+	let firstName = $('#firstName').val();
+	let lastName = $('#lastName').val();
+	let gendertemp = $('#gender').val();
+	let agetemp = $('#age').val();
+	let flightNo = $('#flightNo').val();
+	let flight_date = $('#date').val();
+	console.log(firstName);
+	console.log(lastName);
+	console.log(agetemp);
+	console.log(flightNo);
+	console.log(flight_date);
+	let flightId;
+	 
+	  $.ajax(root_url + "flights",
+	  {
+		  type: 'GET',
+		  xhrFields: {withCredentials: true},
+		  success: (flight) => {
+			for (let i = 0; i < flight.length; i++) {
+				if (flight[i].number == flightNo) {
+					flightId = flight[i].id;
+					planeId = flight[i].plane_id;
+	
+					let col = '';
+					for (let i = 0; i < 4; i++) {
+					  if (i == 0) {
+						  col = 'A';
+					  } else if (i == 1) {
+						  col = 'B';
+					  } else if (i == 2) {
+						  col = 'C';
+					  } else if (i == 3) {
+						  col = 'D';
+					  }
+					  let cabinT = '';
+					  let window = false;
+					  let aisle = false;
+					  for (let j = 1; j < 30; j++) {
+						  if (j < 10) {
+							  cabinT = 'first';
+						  } else if (j < 20) {
+							  cabinT = 'business';
+						  } else if (j < 30) {
+							  cabinT = 'economy';
+						  }
+						  if (col == 'A' || col == 'D') {
+							  window = true;
+						  } else if (col == 'B' || col == 'C') {
+							  aisle = true;
+						  }
+						  $.ajax(root_url + "seats",
+						  {
+							  type: 'POST',
+							  xhrFields: {withCredentials: true},
+							  data: {
+								  seat: {
+									  plane_id: planeId,
+									  row: j,
+									  number: col,
+									  cabin: cabinT,
+									  is_window: window,
+									  is_aisle: aisle
+								  }
+							  },
+							  success: (response) => {
+							  }
+						  });
+					  }
+					}
 
-    $.ajax(root_url + "flights",
-    {
-      type: 'GET',
-      xhrFields: {
-        withCredentials: true
-      },
-      success: (flight) => {
-        console.log(flight.length);
-        var radioValue;
-        radioValue = $("input[name='arde']:checked").val();
-        console.log(radioValue);
-        for (let i = 0; i < flight.length; i++) {
-          a = flight[i];
-          a_id = a.airline_id;
-          let airline_name;
-          if (a_id == 2547) {
-            airline_name = 'Alaska Airlines';
-          } else if (a_id == 2546) {
-            airline_name = 'JetBlue Airways';
-          } else if (a_id == 2545) {
-            airline_name = 'Frontier Airlines';
-          } else if (a_id == 2544) {
-            airline_name = 'Southwest Airlines';
-          } else if (a_id == 2543) {
-            airline_name = 'United Airlines';
-          } else if (a_id == 2542) {
-            airline_name = 'Delta Airlines';
-          } else if (a_id == 2541) {
-            airline_name = 'American Airlines';
-          }
-          d_id = a.departure_id;
-          ar_id = a.arrival_id;
-          let depart_airport;
-          let arrival_airport;
-          if (d_id == 73306) {
-            depart_airport = 'SEA';
-          } else if (d_id == 20676) {
-            depart_airport = 'LAX';
-          } else if (d_id == 20675) {
-            depart_airport = 'SFO';
-          } else if (d_id == 20674) {
-            depart_airport = 'DEN';
-          } else if (d_id == 20673) {
-            depart_airport = 'IAH';
-          } else if (d_id == 20672) {
-            depart_airport = 'ORD';
-          } else if (d_id == 20671) {
-            depart_airport = 'BOS';
-          } else if (d_id == 20670) {
-            depart_airport = 'JFK';
-          } else if (d_id == 20669) {
-            depart_airport = 'ATL';
-          } else if (d_id == 20668) {
-            depart_airport = 'IAD';
-          } else if (d_id == 20667) {
-            depart_airport = 'RDU';
-          }
+					$.ajax(root_url + "instances",
+						{
+							type: 'POST',
+							xhrFields: { withCredentials: true},
+							data: {
+								instance: {
+									flight_id: flightId,
+									date: flight_date
+								}
+							},
+							success: (instance) => {
+								$.ajax(root_url + "seats",
+								{
+									type: 'GET',
+									xhrFields: {withCredentials: true},
+									success: (seats) => {
+										var min=0; 
+										var max=100;  
+										var random =Math.floor(Math.random() * (+max - +min)) + +min; 
+										var seatrow = 0;
+										var seatcol = '';
+										var seatcabin = '';
+										var seatwindow = false;
+										var seataisle = false;
+										let flightId;
+										let planeId;
 
-          if (ar_id == 73306) {
-            arrival_airport = 'SEA';
-          } else if (ar_id == 20676) {
-            arrival_airport = 'LAX';
-          } else if (ar_id == 20675) {
-            arrival_airport = 'SFO';
-          } else if (ar_id == 20674) {
-            arrival_airport = 'DEN';
-          } else if (ar_id == 20673) {
-            arrival_airport = 'IAH';
-          } else if (ar_id == 20672) {
-            arrival_airport = 'ORD';
-          } else if (ar_id == 20671) {
-            arrival_airport = 'BOS';
-          } else if (ar_id == 20670) {
-            arrival_airport = 'JFK';
-          } else if (ar_id == 20669) {
-            arrival_airport = 'ATL';
-          } else if (ar_id == 20668) {
-            arrival_airport = 'IAD';
-          } else if (ar_id == 20667) {
-            arrival_airport = 'RDU';
-          }
-          let dep_time = new Date(a.departs_at);
-          let conv_dep_time = moment(dep_time * 1000).format('HH:mm')
-          let arr_time = new Date(a.arrives_at);
-          let conv_arr_time = moment(arr_time * 1000).format('HH:mm')
+										$.ajax(root_url + "flights",
+										{
+											type: 'GET',
+											xhrFields: {withCredentials: true},
+											success: (flight) => {
+											  for (let i = 0; i < flight.length; i++) {
+												  if (flight[i].number == flightNo) {
+													  flightId = flight[i].id;
+													  planeId = flight[i].plane_id;
+													 
+												  }
+											  }
 
-          if (radioValue == 'departure') {
-            if (depart_airport == 'RDU') {
-              $('#disTab').append("<tr class='item'><td>" + airline_name + "</td><td>" + depart_airport + "</td><td>" +
-              arrival_airport + "</td><td>" + conv_dep_time + "</td><td>" + conv_arr_time + "</td><td>" + a.number + "</tr>");
-            }
-          } else if (radioValue == 'arrival') {
-            if (arrival_airport == 'RDU') {
-              $('#disTab').append("<tr class='item'><td>" + airline_name + "</td><td>" + depart_airport + "</td><td>" +
-              arrival_airport + "</td><td>" + conv_dep_time + "</td><td>" + conv_arr_time + "</td><td>" + a.number + "</tr>");
-            }
-          }
-        }
-      }
-    });
+											  console.log(seats.length);
+												let index;
+												for (let i = random; i < seats.length; i = i + random) {
+													console.log(i);
+													if (seats[i].plane_id == planeId) {
+														index = i;
+														break;
+													}											
+												}
+												if (seats[index].plane_id == planeId) {
+													seatid = seats[index].id;
+													seatrow = seats[index].row;
+													seatcol = seats[index].number;
+													seatcabin = seats[index].cabin;
+													seatwindow = seats[index].is_window;
+													seataisle = seats[index].is_aisle;
+												}
+												$.ajax(root_url + "tickets",
+													{
+														type: 'POST',
+														xhrFields: {withCredentials: true},
+														data: {
+															ticket: {
+																first_name: firstName,
+																last_name: lastName,
+																gender: gendertemp,
+																age: agetemp,
+																seat_id: seatid
+															}
+														},
+														success: (ticket) => {
+															console.log("hi");
+															let cabindisplay;
+															if (seatcabin == 'economy') {
+																cabindisplay = 'Economy';
+															} else if (seatcabin == 'business') {
+																cabindisplay = 'Business';
+															} else if (seatcabin == 'first') {
+																cabindisplay = 'First Class';
+															}
+															let locdisplay;
+															if (seataisle == true) {
+																locdisplay = 'Aisle';
+															} else if (seatwindow == true) {
+																locdisplay = 'Window';
+															}
+															info.append("<br><h2> Ticket Information </h2><div> Name: " + firstName + " " + lastName + "</div><div> Age: " + agetemp + "</div><div> Gender: " + gendertemp + "</div><div> Seat Row: " + seatrow + " Seat Number: " + seatcol + " Seat Cabin: " + cabindisplay + " Seat Type: " + locdisplay);
+															info.append("<div> Flight Number: " + flightNo + " Flight Date: " + flight_date);
+
+														}
+												});
+											}
+										});
+										
+										
+									}
+								});
+
+								
+							}
+					});
+					
+				}
+			}
+		  }
+	  });
+
+	  
+	  
+
   });
+
+  
 };
+
+
+
 function autocomplete(input,numbers){
   let focused_selection;
   input.addEventListener('input',function(e){
