@@ -177,3 +177,10 @@ body {
       border-top-color: white;
       margin-top: 0;
   }
+.autocomplete-string{
+  display: inline-block;
+}
+.autocomplete-active{
+  background-color:#4285f4;
+  color: white;
+}
