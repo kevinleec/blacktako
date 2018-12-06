@@ -336,7 +336,7 @@ var build_search_interface = function (elmnt) {
 		  if (airline == '' && airport == '' && autocomplete_result == '') {
             $('#disTab').append("<tr class='item'><td>" + airline_name + "</td><td>" + a.number + "</td><td>" +
             depart_city + "</td><td>" + arrival_city + "</td><td>" + conv_dep_time + "</td><td>" + conv_arr_time + "</td></tr>");
-          } else if (airline == '' && airport == '' && autocomplete_result != '') {
+          } else if (autocomplete_result != '') {
 			if (flight_number == autocomplete_result) {
 				$('#disTab').append("<tr class='item'><td>" + airline_name + "</td><td>" + a.number + "</td><td>" +
 				depart_city + "</td><td>" + arrival_city + "</td><td>" + conv_dep_time + "</td><td>" + conv_arr_time + "</td></tr>");
