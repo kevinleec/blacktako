@@ -1,7 +1,7 @@
 body {
     font-family: 'Noto Sans', sans-serif;
   }
-  
+
   /* Style the tab */
   .tabs {
     overflow: hidden;
@@ -9,7 +9,7 @@ body {
     z-index: 1;
     position: relative;
   }
-  
+
   /* Style the buttons inside the tab */
   .tabs button {
     background-color: inherit;
@@ -23,19 +23,19 @@ body {
     font-weight: bold;
     color: white;
   }
-  
+
   /* Change background color of buttons on hover */
   .tabs button:hover {
     background-color: #777;
   }
-  
+
   .table {
     padding-top: 10px;
     overflow-y: auto;
     width: 59%;
     height: 75vh;
   }
-  
+
   table, th, td {
     border: 1px solid #ddd;
     border-collapse: collapse;
@@ -43,40 +43,40 @@ body {
     white-space: nowrap;
     overflow: hidden;
   }
-  
+
   th, td {
     padding: 15px;
     text-align: left;
     padding-right: 30px;
   }
-  
+
   table tr:nth-child(even) {
     background-color: #eee;
   }
-  
+
   table tr:nth-child(odd) {
     background-color: #fff;
   }
-  
+
   table th {
     background-color: #4285f4;
     color: white;
   }
-  
+
   .table2 th {
     background-color: #005daa;
   }
-  
+
   .table2 {
     padding-top: 10px;
     overflow-y: auto;
     height: 45vh;
   }
-  
+
   .table2 th, td {
     padding-right: 19px;
   }
-  
+
   #map {
     height: 400px;
     float: right;
@@ -85,20 +85,20 @@ body {
     margin-right: 20px;
     border: 1px solid #005daa;
   }
-  
+
   #info {
     width: 100%;
   }
-  
+
   #searchinfo {
     float: left;
     width: 57%;
   }
-  
+
   .topdiv {
     height: 80px;
   }
-  
+
   .top {
     color: white;
     position: relative;
@@ -109,32 +109,35 @@ body {
     height: 60px;
     z-index: 2;
   }
-  
+
   .top h1 {
     float: left;
     margin-top: 32px;
     margin-left: 18px;
   }
-  
+
   .top img {
     position: relative;
     padding: 20px;
   }
-  
+
   #dark {
     background-color: #005daa;
   }
-  
+
   #blue {
     background-color: #4285f4;
   }
-  
+
+  #green {
+    background-color: #009999;
+  }
   #video {
     float: right;
     display: inline-block;
     margin-top: -510px;
   }
-  
+
   #elementMap {
     float: right;
     display: inline-block;
@@ -142,7 +145,7 @@ body {
     height: 340px;
     width: 510px;
   }
-  
+
   .mapTitle {
     width: 495px;
     float: right;
@@ -150,12 +153,12 @@ body {
     padding-left: 15px;
     color: white;
   }
-  
+
   th {
       padding-right: 28px;
       position: relative;
   }
-  
+
   th:before, th:after {
       border: 4px solid transparent;
       content: "";
@@ -174,4 +177,3 @@ body {
       border-top-color: white;
       margin-top: 0;
   }
-

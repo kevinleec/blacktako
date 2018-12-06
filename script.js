@@ -131,7 +131,7 @@ var tab_interface = function () {
   let section = $('section');
 
   body.empty();
-  body.append("<div class = 'tabs'><button class = 'tab_link' onclick = 'build_search_interface(this)' id = 'defaultOpen'>Search</button><button class = 'tab_link' onclick = 'build_departure_table(this)'>Departures</button><div class = 'tabs'><button class = 'tab_link' onclick = 'build_arrival_table(this)'>Arrivals</button></div>");
+  body.append("<div class = 'tabs'><button class = 'tab_link' onclick = 'build_search_interface(this)' id = 'defaultOpen'>Search</button><button class = 'tab_link' onclick = 'build_departure_table(this)'>Departures</button><button class = 'tab_link' onclick = 'build_arrival_table(this)'>Arrivals</button><button class = 'tab_link' onclick = 'build_post_interface(this)'>blah</button></div>");
   body.append("<section></section>");
   document.getElementById("defaultOpen").click();
 
@@ -329,7 +329,7 @@ var build_search_interface = function (elmnt) {
 
 		  let autocomplete_result = getSearchValue();
 		  console.log(autocomplete_result);
-		  
+
 		  if (airline == '' && airport == '' && autocomplete_result == '') {
             $('#disTab').append("<tr class='item'><td>" + airline_name + "</td><td>" + a.number + "</td><td>" +
             depart_city + "</td><td>" + arrival_city + "</td><td>" + conv_dep_time + "</td><td>" + conv_arr_time + "</td></tr>");
@@ -354,8 +354,8 @@ var build_search_interface = function (elmnt) {
               depart_city + "</td><td>" + arrival_city + "</td><td>" + conv_dep_time + "</td><td>" + conv_arr_time + "</td></tr>");
             }
 		  }
-		  
-		  
+
+
         }
       }
     });
@@ -631,6 +631,19 @@ var build_arrival_table = function(elmnt) {
       }
     }
   });
+};
+var build_post_interface = function(elmnt) {
+  let section = $('section');
+
+  section.empty();
+  section.append("<div class = 'topdiv' id = 'green'><header class = 'top' role = 'banner'><h1>blah</h1></header></div>");
+  tablinks = document.getElementsByClassName("tab_link");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].style.backgroundColor = "";
+  }
+  elmnt.style.backgroundColor = '#009999';
+  section.append("<div id = 'info'></div>");
+  let info = $('#info');
 };
 
 
