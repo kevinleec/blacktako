@@ -150,23 +150,26 @@ var build_search_interface = function (elmnt) {
   section.append("<div class = 'topdiv' id = 'dark'><header class = 'top' role = 'banner'><h1>Flight Search</h1></header></div>");
   section.append("<div id = 'searchinfo'><div>");
   let info = $('#searchinfo');
-  info.append("<h2> Select an Airline</h2>");
+  info.append("<div id = 'select'></div>");
+  let select = $("#select");
+  info.append("<div id = 'auto'></div>");
+  let auto = $('#auto');
 
   let airline_list = $("<form id = 'airline_form'><select id = 'airline'></select></form>");
   let airport_list = $("<form id = 'airport_form'><select id = 'airport' onchange = 'updateLocation()'></select></form>");
-  let autocomplete_form=$("<div id=autocomplete-div><form autocomplete=off><input id=autocomplete-input type=text name=flightid placeholder= 'Flight Number'></form></div>");
-  info.append(airline_list);
-  info.append("<h2> Select an Airport </h2>");
-  info.append(airport_list);
-  info.append("<h2> Find by Flight Number </h2>");
-  info.append(autocomplete_form);
-  info.append("<br>");
+  let autocomplete_form=$("<div id='autocomplete-div'><form autocomplete=off><input id='autocomplete-input' type=text name=flightid placeholder= 'Flight Number'></form></div>");
+  select.append("<h2> Select an Airline</h2>");
+  select.append(airline_list);
+  select.append("<h2> Select an Airport </h2>");
+  select.append(airport_list);
+  auto.append("<h2> Find by Flight Number </h2>");
+  auto.append(autocomplete_form);
   section.append("<div id = 'map'></div>");
   $('#airline').append("<option value = ''> Select an Airline </option>");
   $('#airport').append("<option value = ''> Select an Airport </option>");
 
-  info.append("<div><button id = 'submit' class = 'button'> Submit </button></div>");
-  info.append("<div class = 'table2'></div>");
+  select.append("<div id = 'submitbutton2'><button id = 'submit' class = 'button'> Submit </button></div>");
+  select.append("<div class = 'table2'></div>");
   let autocomplete_input=document.getElementById('autocomplete-input');
   $.ajax(root_url + "airlines",
   {
@@ -644,11 +647,9 @@ var build_post_interface = function(elmnt) {
   elmnt.style.backgroundColor = '#009999';
   section.append("<div id = 'info'></div>");
   let info = $('#info');
-  info.append("<h2> Personal Information </h2>");
-  info.append("<div> First Name: <input id = 'firstName' type = 'text'> Last Name: <input id = 'lastName' type = 'text'> Age: <input id = 'age' type = 'number'> Gender: <input id = 'gender' type = 'text'> </div><h2> Flight Information </h2><div>Flight Number: <input id = 'flightNo' type = 'text'> Date: <input id = 'date' type = 'date'></div>");
-  info.append("<div><button id = 'submit' class = 'button'> Book </button></div>");
+  info.append("<div id = 'book'> <h2> Personal Information </h2><br/>First Name: <input id = 'firstName' type = 'text'> Last Name: <input id = 'lastName' type = 'text'> Age: <input id = 'age' type = 'number'> Gender: <input id = 'gender' type = 'text'> </div><div id = 'book'><h2> Flight Information </h2><br/>Flight Number: <input id = 'flightNo' type = 'text'> Date: <input id = 'date' type = 'date'><div id = 'submitbutton'><button id = 'submit' class = 'button'> Book </button></div></div>");
 
-  
+
   $('#submit').on('click', function() {
 	let firstName = $('#firstName').val();
 	let lastName = $('#lastName').val();
@@ -662,7 +663,7 @@ var build_post_interface = function(elmnt) {
 	console.log(flightNo);
 	console.log(flight_date);
 	let flightId;
-	 
+
 	  $.ajax(root_url + "flights",
 	  {
 		  type: 'GET',
@@ -672,7 +673,7 @@ var build_post_interface = function(elmnt) {
 				if (flight[i].number == flightNo) {
 					flightId = flight[i].id;
 					planeId = flight[i].plane_id;
-	
+
 					let col = '';
 					for (let i = 0; i < 4; i++) {
 					  if (i == 0) {
@@ -736,9 +737,9 @@ var build_post_interface = function(elmnt) {
 									type: 'GET',
 									xhrFields: {withCredentials: true},
 									success: (seats) => {
-										var min=0; 
-										var max=100;  
-										var random =Math.floor(Math.random() * (+max - +min)) + +min; 
+										var min=0;
+										var max=100;
+										var random =Math.floor(Math.random() * (+max - +min)) + +min;
 										var seatrow = 0;
 										var seatcol = '';
 										var seatcabin = '';
@@ -756,7 +757,7 @@ var build_post_interface = function(elmnt) {
 												  if (flight[i].number == flightNo) {
 													  flightId = flight[i].id;
 													  planeId = flight[i].plane_id;
-													 
+
 												  }
 											  }
 
@@ -767,7 +768,7 @@ var build_post_interface = function(elmnt) {
 													if (seats[i].plane_id == planeId) {
 														index = i;
 														break;
-													}											
+													}
 												}
 												if (seats[index].plane_id == planeId) {
 													seatid = seats[index].id;
@@ -806,33 +807,32 @@ var build_post_interface = function(elmnt) {
 															} else if (seatwindow == true) {
 																locdisplay = 'Window';
 															}
-															info.append("<br><h2> Ticket Information </h2><div> Name: " + firstName + " " + lastName + "</div><div> Age: " + agetemp + "</div><div> Gender: " + gendertemp + "</div><div> Seat Row: " + seatrow + " Seat Number: " + seatcol + " Seat Cabin: " + cabindisplay + " Seat Type: " + locdisplay);
-															info.append("<div> Flight Number: " + flightNo + " Flight Date: " + flight_date);
+															info.append("<br><div id = 'ticketinfo'><h2> Ticket Information </h2><div> Name: " + firstName + " " + lastName + "</div><div> Age: " + agetemp + "</div><div> Gender: " + gendertemp + "</div><div> Seat Row: " + seatrow + " Seat Number: " + seatcol + " Seat Cabin: " + cabindisplay + " Seat Type: " + locdisplay + "<div> Flight Number: " + flightNo + " Flight Date: " + flight_date + " </div> ");
 
 														}
 												});
 											}
 										});
-										
-										
+
+
 									}
 								});
 
-								
+
 							}
 					});
-					
+
 				}
 			}
 		  }
 	  });
 
-	  
-	  
+
+
 
   });
 
-  
+
 };
 
 

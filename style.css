@@ -68,9 +68,9 @@ body {
   }
 
   .table2 {
-    padding-top: 10px;
+    padding: 10px;
     overflow-y: auto;
-    height: 45vh;
+    height: 43vh;
   }
 
   .table2 th, td {
@@ -81,8 +81,8 @@ body {
     height: 400px;
     float: right;
     width: 40%;
-    margin-top: 100px;
-    margin-right: 20px;
+    margin-top: 126px;
+    margin-right: 5px;
     border: 1px solid #005daa;
   }
 
@@ -93,6 +93,7 @@ body {
   #searchinfo {
     float: left;
     width: 57%;
+    padding: 10px;
   }
 
   .topdiv {
@@ -183,4 +184,36 @@ body {
 .autocomplete-active{
   background-color:#4285f4;
   color: white;
+  cursor: pointer;
+}
+
+#book {
+  border: 25px solid #009999;
+  padding: 20px;
+  font-weight: 600;
+  border-top: hidden;
+  border-bottom: hidden;
+}
+
+#submit {
+  padding: 5px;
+  margin-left: 25px;
+}
+
+#submit:hover {
+  cursor: pointer;
+  background-color: #777;
+}
+
+#submitbutton {
+  padding: 10px;
+}
+
+#submitbutton2 {
+  margin-top: 10px;
+}
+
+#auto {
+  margin-left: 400px;
+  margin-top: -515px;
 }
