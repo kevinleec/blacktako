@@ -1,5 +1,3 @@
 # blacktako
 
-final project
-
 (:
